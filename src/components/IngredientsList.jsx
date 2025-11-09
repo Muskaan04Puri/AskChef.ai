@@ -1,4 +1,4 @@
-const IngredientsList = ({ingredients, handleGetRecipe, ref}) => {
+const IngredientsList = ({ingredients, handleGetRecipe, ref, isLoading}) => {
 
     const ingredientsListItems = ingredients.map(ingredient => (
          <li key={ingredient}>{ingredient}</li>
@@ -14,7 +14,11 @@ const IngredientsList = ({ingredients, handleGetRecipe, ref}) => {
               <h3>Ready for a recipe?</h3>
               <p>Generate a recipe from your list of ingredients.</p>
             </div>
-            <button className="action-btn" onClick={handleGetRecipe}>Get a recipe</button>
+            {isLoading ? (
+                <div className="loader"></div>
+            ) : (
+                <button className="action-btn" onClick={handleGetRecipe}>Get a recipe</button>
+            )}
           </div>}
         </section>
     )
