@@ -8,25 +8,62 @@ body {
   background-color: #fafaf8;
 }
 
+/* --- NEW HEADER STYLES --- */
 header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Pushes logo and nav apart */
   align-items: center;
-  gap: 6px;
-  background-color: red;
+  padding: 0 30px; /* Adds padding */
   height: 80px;
   background-color: white;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
     0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 }
 
-header > img {
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-link > img {
   width: 50px;
 }
 
-header > h1 {
+.logo-link > h1 {
   font-weight: 400;
 }
+
+.auth-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Style for the active/disabled link */
+.nav-link.disabled-link {
+  color: #9ca3af; /* Greyed-out */
+  pointer-events: none; /* Unclickable */
+  cursor: default;
+}
+
+.nav-link.disabled-link:hover {
+  text-decoration: none;
+}
+/* --- END NEW HEADER STYLES --- */
 
 main {
   padding: 30px 30px 10px;
@@ -72,15 +109,15 @@ ul.ingredients-list {
 ul.ingredients-list > li {
   color: #475467;
   line-height: 28px;
-  padding: 4px 8px; 
-  border-radius: 6px; 
+  padding: 4px 8px;
+  border-radius: 6px;
   transition: background-color 0.2s ease-in-out;
-  display: flex;     
+  display: flex;
   align-items: center;
 }
 
 ul.ingredients-list > li:hover {
-  background-color: #f3f4f6; 
+  background-color: #f3f4f6;
 }
 
 .remove-btn {
@@ -88,32 +125,29 @@ ul.ingredients-list > li:hover {
   height: 22px;
   margin-left: auto;
   flex-shrink: 0;
-
-  background: #E5E7EB; 
-  color: #9CA3AF;     
+  background: #e5e7eb;
+  color: #9ca3af;
   border: none;
   border-radius: 4px;
-  font-size: 1.2rem;  
+  font-size: 1.2rem;
   font-weight: bold;
-  line-height: 21px; 
+  line-height: 21px;
   padding: 0;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
-
 .remove-btn:hover {
-  background: #D1D5DB; 
-  color: #6B7280;    
+  background: #d1d5db;
+  color: #6b7280;
 }
 
 ul.ingredients-list > li::before {
-  content: "•"; 
-  color: #475467; 
+  content: "•";
+  color: #475467;
   font-weight: bold;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
-
 
 .get-recipe-container {
   display: flex;
@@ -184,4 +218,135 @@ ul.ingredients-list > li::before {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* --- NEW AUTH PAGE STYLES --- */
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-container input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+}
+
+
+
+.auth-container p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* --- New Auth Page Styles --- */
+
+.auth-error {
+  color: #e11d48; /* Red */
+  background-color: #fef2f2; /* Light red */
+  border: 1px solid #fecaca;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #6B7280;
+  margin: 15px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #D1D5DB;
+}
+
+.auth-divider-text {
+  padding: 0 10px;
+  font-size: 0.9rem;
+}
+
+/* --- UPDATED google-btn styling --- */
+.google-btn {
+  display: flex;
+  justify-content: center; /* Centering content */
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  gap: 10px;
+  width: 100%; /* Make it take full width to center effectively */
+  box-sizing: border-box; /* Include padding/border in width */
+  z-index: 10; /* Give it a higher z-index */
+  position: relative; /* Needs position for z-index to work */
+}
+
+.google-btn:hover {
+  background-color: #f9fafb;
+}
+
+/* --- Ensure form buttons also have z-index if needed --- */
+/* This rule now ONLY targets your main submit button */
+.submit-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #141413;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.auth-container button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- New Header User Styles --- */
+.user-info {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  color: #374151; /* A dark grey */
+  font-size: 0.9rem;
+  margin-right: 10px;
+}
+
+.logout-btn {
+  /* This styles the <button> to look just like your <Link> */
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  color: #3498db;
+  text-decoration: none;
+  font-size: 0.9rem;
+  
+  /* Reset button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
 }
