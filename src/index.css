@@ -8,12 +8,12 @@ body {
   background-color: #fafaf8;
 }
 
-/* --- NEW HEADER STYLES --- */
+
 header {
   display: flex;
-  justify-content: space-between; /* Pushes logo and nav apart */
+  justify-content: space-between; 
   align-items: center;
-  padding: 0 30px; /* Adds padding */
+  padding: 0 30px; 
   height: 80px;
   background-color: white;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
@@ -53,17 +53,17 @@ header {
   text-decoration: underline;
 }
 
-/* Style for the active/disabled link */
+
 .nav-link.disabled-link {
-  color: #9ca3af; /* Greyed-out */
-  pointer-events: none; /* Unclickable */
+  color: #9ca3af; 
+  pointer-events: none; 
   cursor: default;
 }
 
 .nav-link.disabled-link:hover {
   text-decoration: none;
 }
-/* --- END NEW HEADER STYLES --- */
+
 
 main {
   padding: 30px 30px 10px;
@@ -220,7 +220,7 @@ ul.ingredients-list > li::before {
   }
 }
 
-/* --- NEW AUTH PAGE STYLES --- */
+
 .auth-container {
   max-width: 400px;
   margin: 50px auto;
@@ -250,7 +250,7 @@ ul.ingredients-list > li::before {
   margin-top: 20px;
 }
 
-/* --- New Auth Page Styles --- */
+
 
 .auth-error {
   color: #e11d48; /* Red */
@@ -282,10 +282,10 @@ ul.ingredients-list > li::before {
   font-size: 0.9rem;
 }
 
-/* --- UPDATED google-btn styling --- */
+
 .google-btn {
   display: flex;
-  justify-content: center; /* Centering content */
+  justify-content: center; 
   align-items: center;
   padding: 12px;
   border: 1px solid #D1D5DB;
@@ -296,18 +296,17 @@ ul.ingredients-list > li::before {
   cursor: pointer;
   font-family: Inter, sans-serif;
   gap: 10px;
-  width: 100%; /* Make it take full width to center effectively */
-  box-sizing: border-box; /* Include padding/border in width */
-  z-index: 10; /* Give it a higher z-index */
-  position: relative; /* Needs position for z-index to work */
+  width: 100%; 
+  box-sizing: border-box; 
+  z-index: 10; 
+  position: relative; 
 }
 
 .google-btn:hover {
   background-color: #f9fafb;
 }
 
-/* --- Ensure form buttons also have z-index if needed --- */
-/* This rule now ONLY targets your main submit button */
+
 .submit-btn {
   padding: 12px;
   border: none;
@@ -323,17 +322,15 @@ ul.ingredients-list > li::before {
   cursor: not-allowed;
 }
 
-/* --- New Header User Styles --- */
 .user-info {
   font-family: Inter, sans-serif;
   font-weight: 500;
-  color: #374151; /* A dark grey */
+  color: #374151; 
   font-size: 0.9rem;
   margin-right: 10px;
 }
 
 .logout-btn {
-  /* This styles the <button> to look just like your <Link> */
   font-family: Inter, sans-serif;
   font-weight: 500;
   color: #3498db;
@@ -349,4 +346,96 @@ ul.ingredients-list > li::before {
 
 .logout-btn:hover {
   text-decoration: underline;
+}
+
+.save-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #4CAF50; 
+  color: white;
+  font-size: 1rem;
+  font-family: Inter, sans-serif;
+  cursor: pointer;
+  display: block; 
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+/* --- Sidebar Layout --- */
+
+.main-container {
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #FAFAF8;
+  border-right: 1px solid #E5E7EB;
+  padding: 20px;
+  flex-shrink: 0; 
+  overflow-y: auto;
+}
+
+.content-area {
+  flex-grow: 1;
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto; 
+}
+
+/* Sidebar Components */
+.new-recipe-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #141413;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.recipe-list h3 {
+  font-size: 0.9rem;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.recipe-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recipe-list li {
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #374151;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-list li:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.no-recipes {
+  color: #9CA3AF;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+main {
+    padding: 0; 
 }

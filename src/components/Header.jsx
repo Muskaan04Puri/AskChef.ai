@@ -1,23 +1,21 @@
 // src/components/Header.jsx
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext'; // <-- 1. Import your auth hook
+import { useAuth } from '../AuthContext';
 
 const Header = () => {
-  const { currentUser, logout } = useAuth(); // <-- 2. Get the user and logout function
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/login'); // After logout, send to login page
+      navigate('/login');
     } catch (err) {
       console.error("Failed to log out", err);
     }
   };
 
-  // --- 3. Get the user's name ---
-  // Google sign-in gives a 'displayName', but email/password doesn't.
-  // So, we'll use the email as a fallback.
+
   const username = currentUser?.displayName || currentUser?.email;
 
   return (

@@ -17,7 +17,7 @@ const Register = () => {
   
   const navigate = useNavigate(); // Hook to redirect
 
-  // --- 1. Email/Password Registration ---
+  //  Email/Password Registration ---
   const handleRegister = async (event) => {
     event.preventDefault();
     setError('');
@@ -38,8 +38,7 @@ const Register = () => {
     setLoading(false);
   };
 
-  // --- 2. Google Sign-in ---
-  // In src/pages/Register.jsx
+  // Google Sign-in ---
 
   const handleGoogleSignIn = async () => {
     setError('');
@@ -49,13 +48,10 @@ const Register = () => {
       await signInWithPopup(auth, provider);
       navigate('/app'); // Success! Go to the main app page.
     } catch (err) {
-      // --- THIS IS THE CHANGE ---
       // Only show an error if it's NOT the "popup closed" error
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);
       }
-      // If it *is* the popup-closed error, we do nothing.
-      // --- END OF CHANGE ---
     }
     setLoading(false);
   };
@@ -64,7 +60,7 @@ const Register = () => {
     <div className="auth-container">
       <h2>Register</h2>
       
-      {/* --- 3. The Form --- */}
+      {/* The Form --- */}
       <form onSubmit={handleRegister}>
         <input 
           type="email" 
@@ -80,7 +76,7 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required 
         />
-        {/* --- 4. Show Errors --- */}
+        {/* Show Errors --- */}
         {error && <p className="auth-error">Error: Try Again</p>}
         
         <button type="submit"className="submit-btn" disabled={loading}>
@@ -92,7 +88,7 @@ const Register = () => {
         <span className="auth-divider-text">or</span>
       </div>
 
-      {/* --- 5. Google Button --- */}
+      {/* Google Button --- */}
       <button onClick={handleGoogleSignIn} className="google-btn" disabled={loading}>
         Sign up with Google
       </button>

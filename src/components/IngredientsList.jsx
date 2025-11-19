@@ -1,4 +1,11 @@
-const IngredientsList = ({ ingredients, handleGetRecipe, ref, isLoading, handleRemoveIngredient }) => {
+const IngredientsList = ({
+  ingredients,
+  handleGetRecipe,
+  ref,
+  isLoading,
+  handleRemoveIngredient,
+  recipeShown,
+}) => {
   const ingredientsListItems = ingredients.map((ingredient) => (
     <li key={ingredient}>
       {ingredient}
@@ -18,7 +25,7 @@ const IngredientsList = ({ ingredients, handleGetRecipe, ref, isLoading, handleR
       <ul className="ingredients-list" aria-live="polite">
         {ingredientsListItems}
       </ul>
-      {ingredients.length > 4 && (
+      {ingredients.length > 4 && !recipeShown && (
         <div className="get-recipe-container">
           <div ref={ref}>
             <h3>Ready for a recipe?</h3>

@@ -31,8 +31,7 @@ const Login = () => {
     setLoading(false);
   };
 
-  // --- 2. Google Sign-in ---
-  // In src/pages/Login.jsx
+  //  Google Sign-in ---
 
   const handleGoogleSignIn = async () => {
     setError('');
@@ -42,12 +41,10 @@ const Login = () => {
       await signInWithPopup(auth, provider);
       navigate('/app'); // Success! Go to the main app page.
     } catch (err) {
-      // --- THIS IS THE CHANGE ---
       // Only show an error if it's NOT the "popup closed" error
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);
       }
-      // --- END OF CHANGE ---
     }
     setLoading(false);
   };
@@ -74,7 +71,6 @@ const Login = () => {
         />
         {error && <p className="auth-error">{error}</p>}
         
-        {/* --- 4. Make sure to use 'submit-btn' class --- */}
         <button type="submit" className="submit-btn" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
@@ -84,7 +80,6 @@ const Login = () => {
         <span className="auth-divider-text">or</span>
       </div>
 
-      {/* --- 5. Google Button --- */}
       <button onClick={handleGoogleSignIn} className="google-btn" disabled={loading}>
         Sign in with Google
       </button>

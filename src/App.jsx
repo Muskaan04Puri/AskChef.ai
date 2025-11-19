@@ -1,10 +1,10 @@
 // src/App.jsx
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';       // <-- Updated path
-import Main from './components/Main';           // <-- Updated path
+import Header from './components/Header';    
+import Main from './components/Main';     
 import Login from './pages/Login';
 import Register from './pages/Register';
-import ProtectedRoute from './components/ProtectedRoute'; // <-- Import the guard
+import ProtectedRoute from './components/ProtectedRoute'; 
 
 function App() {
   return (
