@@ -1,7 +1,7 @@
-// src/pages/Login.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+import { useAuth } from '../AuthContext';
 import { 
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -15,8 +15,15 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
+  const { currentUser } = useAuth(); // Get the current user
 
-  // --- 1. Email/Password Login ---
+  // ADD THIS REDIRECT LOGIC ---
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/app');
+    }
+  }, [currentUser, navigate]);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setError('');
@@ -24,14 +31,12 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/app'); // Success! Go to the main app page.
+      // Navigation handled by useEffect
     } catch (err) {
       setError(err.message);
     }
     setLoading(false);
   };
-
-  //  Google Sign-in ---
 
   const handleGoogleSignIn = async () => {
     setError('');
@@ -39,9 +44,8 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      navigate('/app'); // Success! Go to the main app page.
+      // Navigation handled by useEffect
     } catch (err) {
-      // Only show an error if it's NOT the "popup closed" error
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);
       }
@@ -52,8 +56,6 @@ const Login = () => {
   return (
     <div className="auth-container">
       <h2>Login</h2>
-      
-      {/* --- 3. The Form --- */}
       <form onSubmit={handleLogin}>
         <input 
           type="email" 

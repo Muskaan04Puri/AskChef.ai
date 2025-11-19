@@ -1,7 +1,7 @@
-// src/pages/Register.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase'; // Import auth
+import { auth } from '../firebase';
+import { useAuth } from '../AuthContext';
 import { 
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -9,15 +9,21 @@ import {
 } from 'firebase/auth';
 
 const Register = () => {
-  // State for the form fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const navigate = useNavigate(); // Hook to redirect
+  const navigate = useNavigate();
+  const { currentUser } = useAuth(); // Get the current user
 
-  //  Email/Password Registration ---
+  // ADD THIS REDIRECT LOGIC ---
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/app');
+    }
+  }, [currentUser, navigate]); // Run this whenever the user status changes
+
   const handleRegister = async (event) => {
     event.preventDefault();
     setError('');
@@ -31,14 +37,11 @@ const Register = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/app'); // Success! Go to the main app page.
     } catch (err) {
-      setError(err.message); // Show Firebase error
+      setError(err.message);
     }
     setLoading(false);
   };
-
-  // Google Sign-in ---
 
   const handleGoogleSignIn = async () => {
     setError('');
@@ -46,9 +49,7 @@ const Register = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      navigate('/app'); // Success! Go to the main app page.
     } catch (err) {
-      // Only show an error if it's NOT the "popup closed" error
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);
       }
@@ -59,8 +60,6 @@ const Register = () => {
   return (
     <div className="auth-container">
       <h2>Register</h2>
-      
-      {/* The Form --- */}
       <form onSubmit={handleRegister}>
         <input 
           type="email" 
@@ -76,10 +75,9 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required 
         />
-        {/* Show Errors --- */}
-        {error && <p className="auth-error">Error: Try Again</p>}
+        {error && <p className="auth-error">{error}</p>}
         
-        <button type="submit"className="submit-btn" disabled={loading}>
+        <button type="submit" className="submit-btn" disabled={loading}>
           {loading ? 'Creating account...' : 'Register'}
         </button>
       </form>
@@ -88,7 +86,6 @@ const Register = () => {
         <span className="auth-divider-text">or</span>
       </div>
 
-      {/* Google Button --- */}
       <button onClick={handleGoogleSignIn} className="google-btn" disabled={loading}>
         Sign up with Google
       </button>
