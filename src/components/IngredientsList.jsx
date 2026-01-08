@@ -5,6 +5,7 @@ const IngredientsList = ({
   isLoading,
   handleRemoveIngredient,
   recipeShown,
+  isViewingSaved
 }) => {
   const ingredientsListItems = ingredients.map((ingredient) => (
     <li key={ingredient}>
@@ -13,6 +14,7 @@ const IngredientsList = ({
         className="remove-btn"
         onClick={() => handleRemoveIngredient(ingredient)}
         aria-label={`Remove ${ingredient}`}
+        disabled={isViewingSaved}
       >
         &ndash;
       </button>

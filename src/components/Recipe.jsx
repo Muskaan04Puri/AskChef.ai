@@ -6,15 +6,16 @@ const Recipe = (props) => {
         <section className='suggested-recipe-container' aria-live="polite">
             <h2>Chef AI Recommends:</h2>
             
-            {/* The Markdown Content */}
             <ReactMarkdown>
                 {props.recipe}
             </ReactMarkdown>
 
-            {/* The New Save Button */}
-            <button className="save-btn" onClick={props.onSave}>
-                Save Recipe
-            </button>
+            {/* Only show the button if the showSaveButton prop is true */}
+            {props.showSaveButton && (
+                <button className="save-btn" onClick={props.onSave}>
+                    Save Recipe
+                </button>
+            )}
         </section>
     )
 } 

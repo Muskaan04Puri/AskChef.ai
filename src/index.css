@@ -102,6 +102,17 @@ main {
   margin-right: 5px;
 }
 
+input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+    color: #9ca3af; 
+    border-color: #e5e7eb;
+}
+
+input:disabled::placeholder {
+    color: #9ca3af;
+}
+
 ul.ingredients-list {
   margin-bottom: 48px;
 }
@@ -140,6 +151,13 @@ ul.ingredients-list > li:hover {
 .remove-btn:hover {
   background: #d1d5db;
   color: #6b7280;
+}
+
+.remove-btn:disabled {
+    opacity: 0.3;         
+    cursor: not-allowed;   
+    color: #a0a0a0;          
+    pointer-events: none;     
 }
 
 ul.ingredients-list > li::before {

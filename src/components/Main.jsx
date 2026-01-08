@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Recipe from "./Recipe";
 import IngredientsList from "./IngredientsList";
-import Sidebar from "./Sidebar"; // <-- 1. Import Sidebar
+import Sidebar from "./Sidebar";
 import { getRecipeFromMistral } from "../ai";
 import { useAuth } from "../AuthContext";
 import { db } from "../firebase";
@@ -11,6 +11,8 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 const Main = () => {
   const [ingredients, setIngredients] = useState([]);
   const [recipe, setRecipe] = useState(false);
+  // 1. NEW STATE: Track if we are viewing a recipe from history
+  const [isViewingSaved, setIsViewingSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useAuth();
 
@@ -44,6 +46,8 @@ const Main = () => {
     try {
       const aiRecipe = await getRecipeFromMistral(ingredients);
       setRecipe(aiRecipe);
+      // 2. UPDATE STATE: This is a fresh recipe, not saved yet
+      setIsViewingSaved(false);
     } catch (err) {
       console.error(err);
       setRecipe("Sorry, an error occurred. Please try again.");
@@ -58,6 +62,7 @@ const Main = () => {
       return;
     }
     try {
+      // This regex removes hashtags (#) AND asterisks (*) from the title
       const title =
         recipe.split("\n")[0].replace(/[#*]/g, "").trim() || "Untitled Recipe";
       await addDoc(collection(db, "recipes"), {
@@ -68,36 +73,46 @@ const Main = () => {
         createdAt: serverTimestamp(),
       });
       alert("Recipe saved successfully!");
+      // Optional: once saved, hide the button immediately
+      setIsViewingSaved(true);
     } catch (err) {
       console.error("Error saving recipe:", err);
       alert("Failed to save recipe.");
     }
   };
 
-  // FUNCTIONS FOR SIDEBAR ---
+  // --- SIDEBAR FUNCTIONS ---
 
   // When clicking a history item
   const selectRecipe = (savedRecipe) => {
-    setRecipe(savedRecipe.content); // Show the recipe
-    setIngredients(savedRecipe.ingredients || []); // Optionally restore ingredients
+    setRecipe(savedRecipe.content);
+    setIngredients(savedRecipe.ingredients || []);
+    // 3. UPDATE STATE: We are viewing a previously saved recipe
+    setIsViewingSaved(true);
   };
 
   // When clicking "+ New Recipe"
   const startNewRecipe = () => {
-    setRecipe(false); // Clear recipe to show form
-    setIngredients([]); // Clear ingredients list
+    setRecipe(false);
+    setIngredients([]);
+    // 4. UPDATE STATE: Reset back to default
+    setIsViewingSaved(false);
   };
 
   return (
     <div className="main-container">
       <Sidebar onSelectRecipe={selectRecipe} onNewRecipe={startNewRecipe} />
-
       <main className="content-area">
         <form onSubmit={handleSubmit} className="ingredient-form">
           <input
             type="text"
             aria-label="Add ingredient"
-            placeholder="e.g. oregano"
+            disabled={isViewingSaved}
+            placeholder={
+              isViewingSaved
+                ? "Start a new recipe to add items"
+                : "e.g. oregano"
+            }
             name="ingredient"
           />
           <button>Add ingredient</button>
@@ -111,10 +126,18 @@ const Main = () => {
             isLoading={isLoading}
             handleRemoveIngredient={handleRemoveIngredient}
             recipeShown={recipe}
+            isViewingSaved={isViewingSaved}
           />
         )}
 
-        {recipe && <Recipe recipe={recipe} onSave={saveRecipe} />}
+        {/* 5. PASS THE NEW PROP: Show button only if NOT viewing a saved recipe */}
+        {recipe && (
+          <Recipe
+            recipe={recipe}
+            onSave={saveRecipe}
+            showSaveButton={!isViewingSaved}
+          />
+        )}
       </main>
     </div>
   );
