@@ -1,4 +1,3 @@
-// src/components/Recipe.jsx
 import ReactMarkdown from 'react-markdown'
 
 const Recipe = (props) => {
@@ -10,7 +9,6 @@ const Recipe = (props) => {
                 {props.recipe}
             </ReactMarkdown>
 
-            {/* Only show the button if the showSaveButton prop is true */}
             {props.showSaveButton && (
                 <button className="save-btn" onClick={props.onSave}>
                     Save Recipe

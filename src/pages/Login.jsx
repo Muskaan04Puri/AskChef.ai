@@ -15,9 +15,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
-  const { currentUser } = useAuth(); // Get the current user
+  const { currentUser } = useAuth(); 
 
-  // ADD THIS REDIRECT LOGIC ---
   useEffect(() => {
     if (currentUser) {
       navigate('/app');
@@ -31,7 +30,6 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Navigation handled by useEffect
     } catch (err) {
       setError(err.message);
     }
@@ -44,7 +42,6 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Navigation handled by useEffect
     } catch (err) {
       if (err.code !== 'auth/popup-closed-by-user') {
         setError(err.message);

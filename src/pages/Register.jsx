@@ -15,14 +15,13 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   
   const navigate = useNavigate();
-  const { currentUser } = useAuth(); // Get the current user
+  const { currentUser } = useAuth(); 
 
-  // ADD THIS REDIRECT LOGIC ---
   useEffect(() => {
     if (currentUser) {
       navigate('/app');
     }
-  }, [currentUser, navigate]); // Run this whenever the user status changes
+  }, [currentUser, navigate]); 
 
   const handleRegister = async (event) => {
     event.preventDefault();

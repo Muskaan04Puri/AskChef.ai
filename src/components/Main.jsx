@@ -1,4 +1,3 @@
-// src/components/Main.jsx
 import { useEffect, useRef, useState } from "react";
 import Recipe from "./Recipe";
 import IngredientsList from "./IngredientsList";
@@ -46,7 +45,6 @@ const Main = () => {
     try {
       const aiRecipe = await getRecipeFromMistral(ingredients);
       setRecipe(aiRecipe);
-      // 2. UPDATE STATE: This is a fresh recipe, not saved yet
       setIsViewingSaved(false);
     } catch (err) {
       console.error(err);
@@ -62,7 +60,6 @@ const Main = () => {
       return;
     }
     try {
-      // This regex removes hashtags (#) AND asterisks (*) from the title
       const title =
         recipe.split("\n")[0].replace(/[#*]/g, "").trim() || "Untitled Recipe";
       await addDoc(collection(db, "recipes"), {
@@ -73,7 +70,6 @@ const Main = () => {
         createdAt: serverTimestamp(),
       });
       alert("Recipe saved successfully!");
-      // Optional: once saved, hide the button immediately
       setIsViewingSaved(true);
     } catch (err) {
       console.error("Error saving recipe:", err);
@@ -81,63 +77,58 @@ const Main = () => {
     }
   };
 
-  // --- SIDEBAR FUNCTIONS ---
-
-  // When clicking a history item
   const selectRecipe = (savedRecipe) => {
     setRecipe(savedRecipe.content);
     setIngredients(savedRecipe.ingredients || []);
-    // 3. UPDATE STATE: We are viewing a previously saved recipe
     setIsViewingSaved(true);
   };
 
-  // When clicking "+ New Recipe"
   const startNewRecipe = () => {
     setRecipe(false);
     setIngredients([]);
-    // 4. UPDATE STATE: Reset back to default
     setIsViewingSaved(false);
   };
 
   return (
     <div className="main-container">
-      <Sidebar onSelectRecipe={selectRecipe} onNewRecipe={startNewRecipe} />
-      <main className="content-area">
-        <form onSubmit={handleSubmit} className="ingredient-form">
-          <input
-            type="text"
-            aria-label="Add ingredient"
-            disabled={isViewingSaved}
-            placeholder={
-              isViewingSaved
-                ? "Start a new recipe to add items"
-                : "e.g. oregano"
-            }
-            name="ingredient"
-          />
-          <button>Add ingredient</button>
-        </form>
+      <Sidebar onSelectRecipe={selectRecipe} onNewRecipe={startNewRecipe} currentRecipeContent={recipe} />
+      <main className="scroll-wrapper">
+        <div className="content-center-container">
+          <form onSubmit={handleSubmit} className="ingredient-form">
+            <input
+              type="text"
+              aria-label="Add ingredient"
+              disabled={isViewingSaved}
+              placeholder={
+                isViewingSaved
+                  ? "Start a new recipe to add items"
+                  : "e.g. oregano"
+              }
+              name="ingredient"
+            />
+            <button>Add ingredient</button>
+          </form>
 
-        {ingredients.length > 0 && (
-          <IngredientsList
-            ref={recipeSection}
-            ingredients={ingredients}
-            handleGetRecipe={handleGetRecipe}
-            isLoading={isLoading}
-            handleRemoveIngredient={handleRemoveIngredient}
-            recipeShown={recipe}
-            isViewingSaved={isViewingSaved}
-          />
-        )}
+          {ingredients.length > 0 && (
+            <IngredientsList
+              ref={recipeSection}
+              ingredients={ingredients}
+              handleGetRecipe={handleGetRecipe}
+              isLoading={isLoading}
+              handleRemoveIngredient={handleRemoveIngredient}
+              recipeShown={recipe}
+              isViewingSaved={isViewingSaved}
+            />
+          )}
 
-        {/* 5. PASS THE NEW PROP: Show button only if NOT viewing a saved recipe */}
-        {recipe && (
-          <Recipe
-            recipe={recipe}
-            onSave={saveRecipe}
-            showSaveButton={!isViewingSaved}
-          />
-        )}
+          {recipe && (
+            <Recipe
+              recipe={recipe}
+              onSave={saveRecipe}
+              showSaveButton={!isViewingSaved}
+            />
+          )}
+        </div>
       </main>
     </div>
   );
